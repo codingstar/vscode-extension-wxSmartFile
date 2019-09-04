@@ -1,6 +1,6 @@
 {
-  "name": "wx-smart-file",
-  "displayName": "wx-smart-file",
+  "name": "wx-smart-files",
+  "displayName": "wx-smart-files",
   "description": "vscode 自动生成小程序文件插件",
   "keywords": [
     "vscdoe",
@@ -9,7 +9,7 @@
     "wxml",
     "wxss"
   ],
-  "version": "1.0.7",
+  "version": "1.1.0",
   "publisher": "haodaima",
   "engines": {
     "vscode": "^1.25.0"
@@ -19,48 +19,58 @@
   ],
   "icon": "logo.png",
   "activationEvents": [
-    "onCommand:wxSmartFile.init",
-    "onCommand:wxSmartFile.stop",
-    "onCommand:wxSmartFile.debugPage"
+    "onCommand:wxSmartFiles.init",
+    "onCommand:wxSmartFiles.stop",
+    "onCommand:wxSmartFiles.debugPage"
   ],
   "main": "./src/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "wxSmartFile.init",
+        "command": "wxSmartFiles.init",
         "title": "Go Start",
-        "category": "wxSmartFile"
+        "category": "wxSmartFiles"
       },
       {
-        "command": "wxSmartFile.stop",
+        "command": "wxSmartFiles.stop",
         "title": "Stop",
-        "category": "wxSmartFile"
+        "category": "wxSmartFiles"
       },
       {
-        "command": "wxSmartFile.debugPage",
+        "command": "wxSmartFiles.debugPage",
         "title": "调试该页面",
-        "category": "wxSmartFile"
+        "category": "wxSmartFiles"
       }
     ],
     "configuration": {
       "type": "obeject",
-      "title": "plugin wx-smart-file config",
+      "title": "plugin wx-smart-files config",
       "properties": {
-        "wxSmartFile.enabled": {
+        "wxSmartFiles.enabled": {
           "type": "boolean",
           "default": true,
           "description": "插件是否启用"
         },
-        "wxSmartFile.path": {
+        "wxSmartFiles.baseUrl": {
+          "type": "string",
+          "default": "",
+          "description": "代码存放的根目录"
+        },
+        "wxSmartFiles.path": {
           "type": "string",
           "default": "pages",
           "description": "默认监听的文件夹"
         },
-        "wxSmartFile.templateDir": {
+        "wxSmartFiles.templateDir": {
           "type": "string",
-          "description": "模板存放的文件夹, 模板文件名必须以 template 开头，例如 template.wxss, template.wxml"
+          "description": "模板存放的页面文件夹相对路径, 模板文件名必须以 template 开头，例如 template.wxss, template.wxml"
         },
-        "wxSmartFile.filename": {
+        "wxSmartFiles.componentPath": {
+          "type": "string",
+          "default": "components",
+          "description": "默认监听的自定义组件文件夹"
+        },
+        "wxSmartFiles.fileName": {
           "type": "string",
           "description": "自动生成文件的文件名"
         }
@@ -69,7 +79,7 @@
     "menus": {
       "explorer/context": [
         {
-          "command": "wxSmartFile.debugPage",
+          "command": "wxSmartFiles.debugPage",
           "group": "z_commands"
         }
       ]
@@ -93,5 +103,5 @@
     "type": "git",
     "url": ""
   },
-  "homepage": "https://github.com/haoxinjieFE/vscode-extension-wxSmartFile"
+  "homepage": "https://github.com/haoxinjieFE/vscode-extension-wxSmartFiles"
 }

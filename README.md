@@ -1,4 +1,4 @@
-# VS Code WxSmartFile extension
+# VS Code wxSmartFiles extension
 
     This is an extension that helps you automate the generation of applet file structures.
 
@@ -10,10 +10,12 @@
 ## Settings Options
 
     This extension contributes the following variables to the settings.
-    - `wxSmartFile.enabled`: enable/disable wx-smart-file, default: `false`
-    - `wxSmartFile.path`: watching folder, default: `pages`
-    - `wxSmartFile.templateDir`: template folder, it's must be in project root folder, default: `static`
-    - `wxSmartFile.filename`: filled template file name, default: current folder name
+    - `wxSmartFiles.enabled`: enable/disable wx-smart-file, default: `false`
+    - `wxSmartFiles.baseUrl`: main source code folder, default: `''`
+    - `wxSmartFiles.path`: watching pages folder, default: `pages`
+    - `wxSmartFiles.componentPath`: watching components folder, default: `components`
+    - `wxSmartFiles.templateDir`: template folder, it's must be in project root folder
+    - `wxSmartFiles.fileName`: filled template file name, default: current folder name
 
 ## It looks like:
 

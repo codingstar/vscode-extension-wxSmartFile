@@ -1,42 +1,42 @@
 const vscode = require("vscode");
-const wxSmartFile = require("./wxSmartFile.js");
+const wxSmartFiles = require("./wxSmartFiles.js");
 
 /**
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
   context.subscriptions.push(
-    vscode.commands.registerCommand("wxSmartFile.init", () => {
-      wxSmartFile.init(1);
+    vscode.commands.registerCommand("wxSmartFiles.init", () => {
+      wxSmartFiles.init(1);
     })
   );
   context.subscriptions.push(
-    vscode.commands.registerCommand("wxSmartFile.stop", () => {
+    vscode.commands.registerCommand("wxSmartFiles.stop", () => {
       try {
-        if (wxSmartFile.fileWatch() && wxSmartFile.watch()) {
-          wxSmartFile.fileWatch().dispose();
-          wxSmartFile.watch().dispose();
+        if (wxSmartFiles.fileWatch() && wxSmartFiles.watch()) {
+          wxSmartFiles.fileWatch().dispose();
+          wxSmartFiles.watch().dispose();
         }
       } catch (e) {
         console.log(e);
       }
       vscode.window.showErrorMessage(
-        "wx-smart-file 已经停止运行在您的 vscode 上"
+        "wx-smart-files 已经停止运行在您的 vscode 上"
       );
     })
   );
   context.subscriptions.push(
-    vscode.commands.registerCommand("wxSmartFile.debugPage", url => {
-      wxSmartFile.debugPage(url.path);
+    vscode.commands.registerCommand("wxSmartFiles.debugPage", url => {
+      wxSmartFiles.debugPage(url.path);
     })
   );
-  context.subscriptions.push(wxSmartFile.fileWatch());
-  context.subscriptions.push(wxSmartFile.watch());
+  context.subscriptions.push(wxSmartFiles.fileWatch());
+  context.subscriptions.push(wxSmartFiles.watch());
 }
 
 function deactivate() {
-  wxSmartFile.fileWatch().dispose();
-  wxSmartFile.watch().dispose();
+  wxSmartFiles.fileWatch().dispose();
+  wxSmartFiles.watch().dispose();
 }
 
 module.exports = {
