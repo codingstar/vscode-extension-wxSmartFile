@@ -24,9 +24,10 @@ class WxSmartFiles {
       if (this.fileWatcher) {
         this.fileWatcher.dispose();
       }
+      const absoluteBaseUrl =  _.join(workspace.workspaceFolders[0].uri.path, this.getConfiguration().baseUrl)
       // 监听 pages 路径
       if (enabled && path) {
-        const realPath = _.join(workspace.workspaceFolders[0].uri.path, baseUrl, path)
+        const realPath = _.join(absoluteBaseUrl, path)
         fs.exists(realPath, exists => {
           if (!exists) {
             showErrorMessage(`未找到 ${path} 文件夹, 请修改 path 字段后重试`);
@@ -43,10 +44,14 @@ class WxSmartFiles {
               true
             );
 
-            this.fileWatcher = watchDirHandler.onDidCreate(url => {
+            this.fileWatcher = watchDirHandler.onDidCreate(uri => {
+              console.warn('[watch pages]:', uri.path)
+              if (uri.path.indexOf('/components') > -1) {
+                return
+              }
               try {
-                if (url.path.indexOf(".") <= -1) {
-                  this.writeWxFile(url.path, templateDir, dirSuffixes.page);
+                if (uri.path.indexOf(".") <= -1) {
+                  this.writeWxFile(uri.path, templateDir, dirSuffixes.page);
                 }
               } catch (e) {
                 console.log(e);
@@ -70,8 +75,8 @@ class WxSmartFiles {
         });
 
         // 监控自定义组件路径
-        const realComponentPath = _.join(workspace.workspaceFolders[0].uri.path, baseUrl, componentPath)
-        fs.exists(realComponentPath, exists => {
+        // const realComponentPath = _.join(absoluteBaseUrl, componentPath)
+        fs.exists(absoluteBaseUrl, exists => {
           if (!exists) {
             return
           }
@@ -82,17 +87,21 @@ class WxSmartFiles {
             showInformationMessage("wx-smart-files 已经重新加载");
           }
           const watchDirHandler = createFileSystemWatcher(
-            `${realComponentPath}/**`,
+            `${absoluteBaseUrl}/**`,
             false,
             true,
             true
           );
 
-          this.fileWatcher = watchDirHandler.onDidCreate(url => {
+          this.fileWatcher = watchDirHandler.onDidCreate(uri => {
+            console.warn('[watch components]:', uri.path)
+            if (uri.path.indexOf('components/') === -1) {
+              return
+            }
             try {
-              if (url.path.indexOf(".") <= -1) {
-                console.log(url.path, templateDir, dirSuffixes.component)
-                this.writeWxFile(url.path, templateDir, dirSuffixes.component);
+              if (uri.path.indexOf(".") <= -1) {
+                console.log(uri.path, templateDir, dirSuffixes.component)
+                this.writeWxFile(uri.path, templateDir, dirSuffixes.component);
               }
             } catch (e) {
               console.log(e);
@@ -157,7 +166,7 @@ class WxSmartFiles {
       files.forEach((file, index) => {
         let curPath = path + "/" + file;
         if (fs.statSync(curPath).isDirectory()) {
-          delDir(curPath); //递归删除文件夹
+          this.delDir(curPath); //递归删除文件夹
         } else {
           fs.unlinkSync(curPath); //删除文件
         }
@@ -335,7 +344,7 @@ class WxSmartFiles {
             : fileName;
 
         console.log('watched path:', path.slice(absoluteBaseUrl.length))
-        jsonConfig.pages.push(`${path.slice(absoluteBaseUrl.length)}/${newFileName}`);
+        jsonConfig.pages.push(`${path.slice(absoluteBaseUrl.length + 1)}/${newFileName}`);
         jsonConfig.pages = this.uniqueArray(jsonConfig.pages);
         fs.writeFile(appJson, JSON.stringify(jsonConfig, null, 2), err => {
           if (err) throw err;
