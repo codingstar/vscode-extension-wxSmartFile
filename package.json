@@ -9,8 +9,8 @@
     "wxml",
     "wxss"
   ],
-  "version": "1.1.1",
-  "publisher": "yncst",
+  "version": "1.1.0",
+  "publisher": "codingyjt",
   "engines": {
     "vscode": "^1.25.0"
   },
@@ -101,7 +101,7 @@
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/codingstar/vscode-extension-wxSmartFile"
   },
-  "homepage": "https://github.com/haoxinjieFE/vscode-extension-wxSmartFiles"
+  "homepage": "https://github.com/codingstar/vscode-extension-wxSmartFile"
 }
